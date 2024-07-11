@@ -10,9 +10,16 @@ const cors = require('cors');
 const http = require('http');
 const path = require('path');
 const mongoose = require('mongoose');
-
+const rateLimit = require('express-rate-limit');
 const app = express();
 app.use(express.json());
+// Rate limiting
+const limiter = rateLimit({
+    max: 200, // Limit each IP to 100 requests per window (here, per hour)
+    windowMs: 60 * 60 * 1000, // 1 hour
+    message: "Too many requests from this IP, please try again in an hour!",
+  });
+  app.use(limiter);
 
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, 'build')));
