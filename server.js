@@ -111,8 +111,8 @@ app.get('/cat', authenticateToken, async (req, res) => {
 });
 
 // Read SSL/TLS certificates
-const key = fs.readFileSync('key.pem');
-const cert = fs.readFileSync('cert.pem');
+const key = fs.readFileSync('/etc/letsencrypt/live/unimesec.shop/privkey.pem'); // Read SSL key file
+const cert = fs.readFileSync('/etc/letsencrypt/live/unimesec.shop/fullchain.pem'); // Read SSL certificate file
 
 // Create HTTPS server
 const server = https.createServer({ key, cert }, app);
