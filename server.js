@@ -111,12 +111,12 @@ app.get('/cat', authenticateToken, async (req, res) => {
 });
 
 // Read SSL/TLS certificates
-const key = fs.readFileSync(path.join(__dirname, 'key.pem'));
-const cert = fs.readFileSync(path.join(__dirname, 'cert.pem'));
+const key = fs.readFileSync('key.pem');
+const cert = fs.readFileSync('cert.pem');
 
 // Create HTTPS server
-// const server = https.createServer({ key, cert }, app);
-const server = http.createServer(app);
+const server = https.createServer({ key, cert }, app);
+// const server = http.createServer(app);
 
 // Connect to MongoDB using Mongoose and start the server
 const url = process.env.MONGODB_URI;
@@ -125,8 +125,8 @@ mongoose.connect(url)
     .then(() => {
         console.log('Connected to MongoDB');
 
-        server.listen(3000, () => {
-            console.log('HTTP Server running on port 3000');
+        server.listen(443, () => {
+            console.log('HTTPs Server running on port 443');
         });
     })
     .catch(err => {
